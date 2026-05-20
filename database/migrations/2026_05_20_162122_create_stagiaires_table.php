@@ -10,29 +10,25 @@ return new class extends Migration
      * Run the migrations.
      */
 
-    public function up(): void
-    {
-        Schema::create('stagiaires', function (Blueprint $table) {
+   public function up(): void
+{
+    Schema::create('stagiaires', function (Blueprint $table) {
+        $table->id();
+        $table->string('nom');
+        $table->string('prenom');
+        $table->date('date_naissance');
 
-            $table->id();
+        $table->foreignId('filiere_id')
+              ->constrained('filieres')   // explicit to be safe
+              ->onDelete('cascade');
 
-            $table->string('nom');
+        $table->foreignId('group_id')
+              ->constrained('groupes')    // 👈 fix: was looking for 'groups'
+              ->onDelete('cascade');
 
-            $table->string('prenom');
-
-            $table->date('date_naissance');
-
-            $table->foreignId('filiere_id')
-                  ->constrained()
-                  ->onDelete('cascade');
-
-            $table->foreignId('group_id')
-                  ->constrained()
-                  ->onDelete('cascade');
-
-            $table->timestamps();
-        });
-    }
+        $table->timestamps();
+    });
+}
 
     /**
      * Reverse the migrations.

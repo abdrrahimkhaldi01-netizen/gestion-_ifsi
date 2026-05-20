@@ -10,44 +10,36 @@ return new class extends Migration
      * Run the migrations.
      */
 
-    public function up(): void
-    {
-        Schema::create('notes', function (Blueprint $table) {
+   public function up(): void
+{
+    Schema::create('notes', function (Blueprint $table) {
+        $table->id();
+        $table->float('cc1');
+        $table->float('cc2');
+        $table->float('cc3');
+        $table->float('examen_final');
+        $table->float('moyenne');
+        $table->string('resultat');
 
-            $table->id();
+        $table->foreignId('stagiaire_id')
+              ->constrained('stagiaires')   // ✅ explicit
+              ->onDelete('cascade');
 
-            $table->float('cc1');
+        $table->foreignId('groupe_id')
+              ->constrained('groupes')      // ✅ this one was actually fine, but explicit is safer
+              ->onDelete('cascade');
 
-            $table->float('cc2');
+        $table->foreignId('filiere_id')
+              ->constrained('filieres')     // ✅ explicit
+              ->onDelete('cascade');
 
-            $table->float('cc3');
+        $table->foreignId('module_id')
+              ->constrained('modules')      // ✅ explicit
+              ->onDelete('cascade');
 
-            $table->float('examen_final');
-
-            $table->float('moyenne');
-
-            $table->string('resultat');
-
-            $table->foreignId('stagiaire_id')
-                  ->constrained()
-                  ->onDelete('cascade');
-
-            $table->foreignId('groupe_id')
-                  ->constrained()
-                  ->onDelete('cascade');
-
-            $table->foreignId('filiere_id')
-                  ->constrained()
-                  ->onDelete('cascade');
-
-            $table->foreignId('module_id')
-                  ->constrained()
-                  ->onDelete('cascade');
-
-            $table->timestamps();
-        });
-    }
-
+        $table->timestamps();
+    });
+}
     /**
      * Reverse the migrations.
      */

@@ -9,17 +9,20 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-
-   public function up(): void
+public function up(): void
 {
-    Schema::create('stages', function (Blueprint $table) {
+    Schema::create('modules', function (Blueprint $table) {
         $table->id();
-        $table->string('entreprise');
-        $table->date('date_debut');
-        $table->date('date_fin');
+        $table->string('titre');
+        $table->text('description');
+        $table->integer('duree');
 
-        $table->foreignId('stagiaire_id')
-              ->constrained('stagiaires')   // ✅ explicit (safe)
+        $table->foreignId('formateur_id')
+              ->constrained('formateurs')   // ✅ explicit (safe)
+              ->onDelete('cascade');
+
+        $table->foreignId('filiere_id')
+              ->constrained('filieres')     // ✅ explicit (safe)
               ->onDelete('cascade');
 
         $table->foreignId('group_id')
@@ -36,6 +39,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('stages');
+        Schema::dropIfExists('modules');
     }
 };
