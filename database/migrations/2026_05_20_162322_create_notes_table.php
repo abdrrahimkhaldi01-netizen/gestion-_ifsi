@@ -1,0 +1,59 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+
+    public function up(): void
+    {
+        Schema::create('notes', function (Blueprint $table) {
+
+            $table->id();
+
+            $table->float('cc1');
+
+            $table->float('cc2');
+
+            $table->float('cc3');
+
+            $table->float('examen_final');
+
+            $table->float('moyenne');
+
+            $table->string('resultat');
+
+            $table->foreignId('stagiaire_id')
+                  ->constrained()
+                  ->onDelete('cascade');
+
+            $table->foreignId('groupe_id')
+                  ->constrained()
+                  ->onDelete('cascade');
+
+            $table->foreignId('filiere_id')
+                  ->constrained()
+                  ->onDelete('cascade');
+
+            $table->foreignId('module_id')
+                  ->constrained()
+                  ->onDelete('cascade');
+
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+
+    public function down(): void
+    {
+        Schema::dropIfExists('notes');
+    }
+};
